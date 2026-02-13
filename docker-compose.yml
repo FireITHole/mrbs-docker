@@ -1,9 +1,10 @@
 version: "2"
+
 services:
   mrbs:
     build:
-      dockerfile: Dockerfile
       context: .
+      dockerfile: Dockerfile
     container_name: mrbs
     environment:
       - PUID=1000
@@ -14,14 +15,17 @@ services:
       - DB_DATABASE=mrbs
     volumes:
       - mrbs_vol:/config
-      #- ./dev/modern-mrbs-theme/modern:/app/www/public/Themes/modern
+      # - ./dev/modern-mrbs-theme/modern:/app/www/public/Themes/modern
     ports:
-      - 8888:80
+      - "8888:80"
     depends_on:
       - mrbs-db
+    networks:
+      - mrbs-net
+
   mrbs-db:
-    container_name: mrbs-db
     image: docker.io/mariadb:latest
+    container_name: mrbs-db
     environment:
       - PUID=1000
       - PGID=1000
@@ -32,29 +36,13 @@ services:
       - MYSQL_PASSWORD=mrbs-pass
     volumes:
       - mrbs_db_vol:/var/lib/mysql
+    networks:
+      - mrbs-net
+
 volumes:
   mrbs_vol: {}
   mrbs_db_vol: {}
-  # mrbs-db:
-  #   image: postgres:latest
-  #   container_name: mrbs_db
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - MYSQL_ROOT_PASSWORD=mrbs-root-pass
-  #     - TZ=Europe/London
-  #     - MYSQL_DATABASE=mrbs
-  #     - MYSQL_USER=mrbs-user
-  #     - MYSQL_PASSWORD=mrbs-pass
-  #   volumes:
-  #     - ./config/pgsql:/var/lib/pgsql
 
-  #phpmyadmin:
-  #  image: phpmyadmin/phpmyadmin
-  #  environment:
-  #      - PMA_HOST=mrbs-db
-  #      - PMA_USER=root
-  #      - PMA_PASSWORD=mrbs-root-pass
-  #      - UPLOAD_LIMIT=512M
-  #  ports:
-  #  - "8890:80"
+networks:
+  mrbs-net:
+    driver: bridge
