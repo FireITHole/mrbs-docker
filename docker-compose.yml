@@ -20,6 +20,7 @@ services:
     depends_on:
       - mrbs-db
   mrbs-db:
+    container_name: mrbs-db
     image: docker.io/mariadb:latest
     environment:
       - PUID=1000
