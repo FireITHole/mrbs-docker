@@ -13,7 +13,7 @@ services:
       - DB_PASS=mrbs-pass
       - DB_DATABASE=mrbs
     volumes:
-      - mrbs_vol:/config
+      - mrbs_vol/config:/config
       #- ./dev/modern-mrbs-theme/modern:/app/www/public/Themes/modern
     ports:
       - 8888:80
@@ -30,7 +30,7 @@ services:
       - MYSQL_USER=mrbs-user
       - MYSQL_PASSWORD=mrbs-pass
     volumes:
-      - mrbs_db_vol:/var/lib/mysql
+      - mrbs_db_vol/var/lib/mysql:/var/lib/mysql
 volumes:
   - mrbs_vol: {}
   - mrbs_db_vol: {}
