@@ -38,6 +38,8 @@ services:
       - mrbs_db_vol:/var/lib/mysql
     networks:
       - mrbs-net
+    ports:
+      - "3306:3306"
 
 volumes:
   mrbs_vol: {}
